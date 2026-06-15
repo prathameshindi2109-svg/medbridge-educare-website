@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Phone, Mail, MapPin, ChevronDown, ChevronRight, Menu, X, MessageCircle, Instagram, Star, CheckCircle, Shield, Users, BookOpen, Plane, FileText, GraduationCap, Clock, Heart, Globe, ArrowRight, Send, Building2, Stethoscope, Award, ChevronUp } from 'lucide-react';
 
-const LOGO_URL = 'https://customer-assets.emergentagent.com/job_098e5f13-905d-4005-91ad-0839f6509dd8/artifacts/djov8j5o_569646AC-56FE-4B0A-806B-E4DB908FB83B.png';
+const LOGO_URL = 'https://customer-assets.emergentagent.com/job_medbridge-global/artifacts/042n3hxo_569646AC-56FE-4B0A-806B-E4DB908FB83B.png';
 
 const IMAGES = {
   hero: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxtZWRpY2FsJTIwc3R1ZGVudHN8ZW58MHx8fHwxNzgxNTM3NzM0fDA&ixlib=rb-4.1.0&q=85',
@@ -29,7 +29,7 @@ const countries = [
     universities: ['Dong A University', 'Hong Bang International University'],
     highlights: ['Affordable Fees', 'NMC Recognized', 'English Medium', 'Safe Environment'],
     duration: '6 Years (incl. internship)',
-    fees: 'Starting from ₹25-30 Lakhs Total',
+    fees: 'Tuition: ~USD 4,500/year',
   },
   {
     name: 'Russia',
@@ -38,7 +38,7 @@ const countries = [
     universities: ['Crimea Federal University'],
     highlights: ['World-Class Education', 'NMC Listed', 'Rich Medical Heritage', 'Affordable Living'],
     duration: '6 Years (incl. internship)',
-    fees: 'Starting from ₹20-25 Lakhs Total',
+    fees: 'Total: ~₹25-26 Lakhs (6 Years)',
   },
   {
     name: 'Georgia',
@@ -47,7 +47,7 @@ const countries = [
     universities: ['SEU (Georgian National University)'],
     highlights: ['European Standard', 'NMC Approved', 'No Donation', 'Global Recognition'],
     duration: '6 Years (incl. internship)',
-    fees: 'Starting from ₹30-35 Lakhs Total',
+    fees: 'Tuition: ~USD 5,900/year',
   },
   {
     name: 'Timor-Leste',
@@ -55,8 +55,8 @@ const countries = [
     flag: '🇹🇱',
     universities: ['UCT (Universidade Cristal Timor)'],
     highlights: ['Emerging Destination', 'NMC Compliant', 'Low Cost of Living', 'Tropical Climate'],
-    duration: '5.5 Years (incl. internship)',
-    fees: 'Starting from ₹20-25 Lakhs Total',
+    duration: '5 Years (incl. internship)',
+    fees: 'Total: ~₹14.5-18 Lakhs (Full Course)',
   },
 ];
 
@@ -66,7 +66,10 @@ const universities = [
     country: 'Vietnam',
     image: IMAGES.campus1,
     highlights: ['NMC Approved', 'English Medium', 'Modern Campus', 'Clinical Training'],
-    fees: '₹25-30 Lakhs (Total Course)',
+    tuitionPerYear: '~USD 4,500/year',
+    totalTuition: '~USD 27,000 (6 Years)',
+    hostelFood: '~USD 1,200-1,500/year',
+    estimatedTotal: '~₹30-35 Lakhs (incl. tuition, hostel, food)',
     intake: 'September',
     duration: '6 Years',
   },
@@ -74,8 +77,11 @@ const universities = [
     name: 'Hong Bang International University',
     country: 'Vietnam',
     image: IMAGES.campus2,
-    highlights: ['WHO Listed', 'International Faculty', 'Research-Oriented', 'Hospital Attached'],
-    fees: '₹28-33 Lakhs (Total Course)',
+    highlights: ['WHO Listed', 'International Faculty', 'Hospital Attached', 'Research-Oriented'],
+    tuitionPerYear: 'USD 5,500-7,019/year (increases yearly)',
+    totalTuition: '~USD 37,410 (6 Years)',
+    hostelFood: '~USD 1,200-1,500/year',
+    estimatedTotal: '~₹35-40 Lakhs (incl. tuition, hostel, food)',
     intake: 'September',
     duration: '6 Years',
   },
@@ -83,8 +89,11 @@ const universities = [
     name: 'Crimea Federal University',
     country: 'Russia',
     image: IMAGES.russia,
-    highlights: ['Government University', 'NMC Listed', '100+ Years Legacy', 'Advanced Labs'],
-    fees: '₹20-25 Lakhs (Total Course)',
+    highlights: ['Government University', 'NMC Listed', 'Established Legacy', 'Advanced Labs'],
+    tuitionPerYear: '~RUB 300,000-344,000/year',
+    totalTuition: '~₹25.7 Lakhs (6 Years incl. hostel)',
+    hostelFood: 'Hostel included; Indian mess ~USD 120/month',
+    estimatedTotal: '~₹25-28 Lakhs (incl. tuition & hostel)',
     intake: 'September',
     duration: '6 Years',
   },
@@ -92,8 +101,11 @@ const universities = [
     name: 'SEU - Georgian National University',
     country: 'Georgia',
     image: IMAGES.georgia,
-    highlights: ['European Curriculum', 'NMC Approved', 'Global Placements', 'Modern Infrastructure'],
-    fees: '₹30-35 Lakhs (Total Course)',
+    highlights: ['European Curriculum', 'NMC Approved', 'Global Recognition', 'Modern Infrastructure'],
+    tuitionPerYear: '~USD 5,900/year',
+    totalTuition: '~USD 35,400 (6 Years)',
+    hostelFood: '~USD 3,000-3,500/year',
+    estimatedTotal: '~₹35-45 Lakhs (incl. tuition, hostel, food)',
     intake: 'October',
     duration: '6 Years',
   },
@@ -101,10 +113,13 @@ const universities = [
     name: 'UCT - Universidade Cristal Timor',
     country: 'Timor-Leste',
     image: IMAGES.timorLeste,
-    highlights: ['NMC Compliant', 'Affordable Education', 'Growing Medical Hub', 'Supportive Community'],
-    fees: '₹20-25 Lakhs (Total Course)',
+    highlights: ['NMC Compliant', 'Most Affordable', 'English Medium', 'Supportive Community'],
+    tuitionPerYear: 'Year 1: USD 6,200; Year 2+: ~USD 3,180/year',
+    totalTuition: '~USD 18,000-20,000 (Full Course)',
+    hostelFood: '~USD 225-275/month (AC hostel + Indian food)',
+    estimatedTotal: '~₹14.5-18 Lakhs (incl. tuition, hostel, food)',
     intake: 'March / September',
-    duration: '5.5 Years',
+    duration: '5 Years',
   },
 ];
 
@@ -129,7 +144,7 @@ const faqs = [
   },
   {
     q: 'What is the total cost of studying MBBS abroad?',
-    a: 'The total cost varies by country and university, ranging from ₹20 Lakhs to ₹35 Lakhs for the entire course duration. This is significantly lower than private medical colleges in India. We provide complete transparent fee breakdowns.'
+    a: 'The total cost varies by country and university. For example: UCT Timor-Leste costs approximately ₹14.5-18 Lakhs total, Crimea Federal University Russia around ₹25-28 Lakhs, Dong A University Vietnam around ₹30-35 Lakhs, and SEU Georgia around ₹35-45 Lakhs. These estimates include tuition, hostel, and basic living expenses. We provide complete transparent fee breakdowns for every university before you commit.'
   },
   {
     q: 'Is NEET required for MBBS abroad?',
@@ -188,9 +203,9 @@ function Navbar() {
       scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-18 md:h-24">
           <a href="#home" className="flex items-center gap-2">
-            <img src={LOGO_URL} alt="MedBridge Educare" className="h-12 md:h-14 w-auto rounded" />
+            <img src={LOGO_URL} alt="MedBridge Educare" className="h-14 md:h-16 w-auto" />
           </a>
           
           <div className="hidden lg:flex items-center gap-1">
@@ -262,7 +277,7 @@ function HeroSection() {
           <div className="text-white space-y-6 md:space-y-8 animate-fade-in-up">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2">
               <span className="w-2 h-2 bg-teal-400 rounded-full animate-pulse"></span>
-              <span className="text-sm font-medium text-white/90">Trusted by 500+ Students & Families</span>
+              <span className="text-sm font-medium text-white/90">NMC-Compliant Universities Across 4 Countries</span>
             </div>
             
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
@@ -450,8 +465,22 @@ function UniversitiesSection() {
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Total Fees</span>
-                    <span className="font-semibold text-navy">{uni.fees}</span>
+                    <span className="text-gray-500">Tuition/Year</span>
+                    <span className="font-semibold text-navy text-xs text-right max-w-[60%]">{uni.tuitionPerYear}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Total Tuition</span>
+                    <span className="font-semibold text-navy text-xs text-right max-w-[60%]">{uni.totalTuition}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Hostel & Food</span>
+                    <span className="font-semibold text-navy text-xs text-right max-w-[60%]">{uni.hostelFood}</span>
+                  </div>
+                  <div className="pt-2 mt-2 border-t border-gray-100">
+                    <div className="flex justify-between">
+                      <span className="text-gray-700 font-medium">Est. Total Cost</span>
+                      <span className="font-bold text-teal-600 text-xs text-right max-w-[60%]">{uni.estimatedTotal}</span>
+                    </div>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">Intake</span>
@@ -845,24 +874,24 @@ function FounderSection() {
               MedBridge Educare was founded with a simple mission — to provide honest, transparent, and reliable guidance to Indian students aspiring to study MBBS abroad. We believe every student deserves accurate information, fair pricing, and genuine support throughout their medical education journey.
             </p>
             <p className="text-white/80 text-lg leading-relaxed mb-8">
-              Our team has helped hundreds of students secure admissions in top NMC-compliant universities across Vietnam, Russia, Georgia, and Timor-Leste. We don't just place students — we build long-term relationships based on trust and accountability.
+              We partner with NMC-compliant universities across Vietnam, Russia, Georgia, and Timor-Leste. We don't just place students — we build long-term relationships based on trust and accountability. Every family that works with us receives complete transparency from day one.
             </p>
             <div className="flex flex-wrap gap-6">
-              <div className="text-center">
-                <p className="text-3xl font-bold text-teal-300">500+</p>
-                <p className="text-white/60 text-sm">Students Guided</p>
-              </div>
               <div className="text-center">
                 <p className="text-3xl font-bold text-teal-300">4</p>
                 <p className="text-white/60 text-sm">Countries</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-teal-300">5+</p>
-                <p className="text-white/60 text-sm">Universities</p>
+                <p className="text-3xl font-bold text-teal-300">5</p>
+                <p className="text-white/60 text-sm">Partner Universities</p>
               </div>
               <div className="text-center">
                 <p className="text-3xl font-bold text-teal-300">100%</p>
-                <p className="text-white/60 text-sm">Transparency</p>
+                <p className="text-white/60 text-sm">Fee Transparency</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold text-teal-300">End-to-End</p>
+                <p className="text-white/60 text-sm">Support Provided</p>
               </div>
             </div>
           </div>
@@ -878,7 +907,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-1">
-            <img src={LOGO_URL} alt="MedBridge Educare" className="h-14 w-auto rounded mb-4" />
+            <img src={LOGO_URL} alt="MedBridge Educare" className="h-16 w-auto mb-4" />
             <p className="text-white/60 text-sm leading-relaxed mb-4">Connecting You to Medical Careers. Your trusted partner for MBBS abroad admissions.</p>
             <div className="flex gap-3">
               <a href={INSTAGRAM_LINK} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
