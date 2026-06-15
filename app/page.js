@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Phone, Mail, MapPin, ChevronDown, ChevronRight, Menu, X, MessageCircle, Instagram, Star, CheckCircle, Shield, Users, BookOpen, Plane, FileText, GraduationCap, Clock, Heart, Globe, ArrowRight, Send, Building2, Stethoscope, Award, ChevronUp } from 'lucide-react';
+import { Phone, Mail, MapPin, ChevronDown, ChevronRight, Menu, X, MessageCircle, Instagram, Star, CheckCircle, Shield, Users, BookOpen, Plane, FileText, GraduationCap, Clock, Heart, Globe, ArrowRight, Building2, Stethoscope, Award, ChevronUp } from 'lucide-react';
 
 const LOGO_URL = 'https://customer-assets.emergentagent.com/job_medbridge-global/artifacts/042n3hxo_569646AC-56FE-4B0A-806B-E4DB908FB83B.png';
 
@@ -708,31 +708,30 @@ function FAQSection() {
 
 function ContactSection() {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
-  const [status, setStatus] = useState({ type: '', message: '' });
-  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setStatus({ type: '', message: '' });
-
-    try {
-      const res = await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, source: 'website_contact' }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setStatus({ type: 'success', message: data.message || 'Thank you! We will contact you shortly.' });
-        setFormData({ name: '', phone: '', email: '', message: '' });
-      } else {
-        setStatus({ type: 'error', message: data.error || 'Something went wrong. Please try again.' });
-      }
-    } catch (err) {
-      setStatus({ type: 'error', message: 'Network error. Please try again or contact us via WhatsApp.' });
-    }
-    setLoading(false);
+    
+    // Build WhatsApp message with form data
+    const parts = [
+      `Hi MedBridge Educare, I'm interested in MBBS abroad.`,
+      ``,
+      `Name: ${formData.name}`,
+      `Phone: ${formData.phone}`,
+    ];
+    if (formData.email) parts.push(`Email: ${formData.email}`);
+    if (formData.message) parts.push(`Message: ${formData.message}`);
+    
+    const whatsappMsg = encodeURIComponent(parts.join('\n'));
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMsg}`;
+    
+    window.open(whatsappUrl, '_blank');
+    setSubmitted(true);
+    setFormData({ name: '', phone: '', email: '', message: '' });
+    
+    // Reset success state after 5 seconds
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
   return (
@@ -830,25 +829,15 @@ function ContactSection() {
                 
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="w-full bg-teal-500 hover:bg-teal-600 disabled:bg-teal-300 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-teal-500 hover:bg-teal-600 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-2"
                 >
-                  {loading ? (
-                    <span className="flex items-center gap-2">
-                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
-                      Submitting...
-                    </span>
-                  ) : (
-                    <><Send size={20} /> Submit Enquiry</>
-                  )}
+                  <MessageCircle size={20} /> Send via WhatsApp
                 </button>
               </div>
               
-              {status.message && (
-                <div className={`mt-4 p-4 rounded-xl text-sm ${
-                  status.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'
-                }`}>
-                  {status.message}
+              {submitted && (
+                <div className="mt-4 p-4 rounded-xl text-sm bg-green-50 text-green-700 border border-green-200">
+                  Your enquiry has been opened in WhatsApp. If it didn't open, please message us directly at {PHONE_NUMBER}.
                 </div>
               )}
             </form>
