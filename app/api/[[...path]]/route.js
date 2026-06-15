@@ -80,7 +80,7 @@ async function handleRequest(request, context) {
     // Get all leads (admin)
     if (path === '/leads' && method === 'GET') {
       const { db } = await connectToDatabase();
-      const leads = await db.collection('leads').find({}).sort({ createdAt: -1 }).toArray();
+      const leads = await db.collection('leads').find({}).sort({ createdAt: -1 }).limit(100).toArray();
       return NextResponse.json({ leads }, { headers: corsHeaders() });
     }
 
