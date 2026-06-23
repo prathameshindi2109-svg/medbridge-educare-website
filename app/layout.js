@@ -1,4 +1,5 @@
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'MedBridge Educare | Your Trusted Partner for MBBS Abroad Admissions',
@@ -49,8 +50,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-screen antialiased">
-        {children}
-      </body>
+  {children}
+  <Analytics />
+</body>
     </html>
   );
 }
